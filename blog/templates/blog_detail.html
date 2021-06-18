@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% load static %}
+{% block page_content %}
+<h3>Blog Posts</h3>
+<div class="row">
+    <div class="col-sm-4">
+        <h5>{{post.title}}</h5>
+        <p>{{post.body}}</p>
+    </div>   
+    {% for comment in comments %}
+    <div class="col-sm-4">
+        <h5>{{comment.user_name}}</h5>
+        <p>{{comment.body}}</p>
+    </div>    
+    {% endfor %} 
+</div>
+{%endblock%}
