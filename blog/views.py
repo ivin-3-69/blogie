@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from blog.models import Post,Comment
 from blog.forms import CommentForm
+from django.http import HttpResponseRedirect
 
 def index(request):
     posts = Post.objects.all().order_by('-created_date')
@@ -31,7 +32,7 @@ def blog_detail(request, pkey):
                 post=post
             )
             comment.save()
-
+            return HttpResponseRedirect("http://127.0.0.1:8000/blog/2")
 
     comments = Comment.objects.filter(post=post)
     context = {
