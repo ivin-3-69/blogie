@@ -3,15 +3,30 @@
 {% block page_content %}
 <h3>Blog Posts</h3>
 <div class="row">
-    <div class="col-sm-4">
+    <div class="col-sm-8">
         <h5>{{post.title}}</h5>
         <p>{{post.body}}</p>
-    </div>   
-    {% for comment in comments %}
+    </div>
+
     <div class="col-sm-4">
+        {% for comment in comments %}
         <h5>{{comment.user_name}}</h5>
-        <p>{{comment.body}}</p>
-    </div>    
-    {% endfor %} 
+        <pre style="font-size: 120%;">    {{comment.body}}</pre>
+        {% endfor %}
+    </div>
+
+    <div class="col-sm-8">
+        <h3>Leave a comment:</h3>
+        <form action="/blog/{{ post.pk }}" method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                {{ form.user_name }}
+            </div>
+            <div class="form-group">
+                {{ form.body }}
+            </div>
+            <input type="submit" value="Submit">
+        </form>
+    </div>
 </div>
 {%endblock%}

@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from blog.models import Post,Comment
+from blog.forms import CommentForm
 
 def index(request):
     posts = Post.objects.all().order_by('-created_date')
@@ -19,9 +20,23 @@ def blog_category(request,category):
 
 def blog_detail(request, pkey):
     post = Post.objects.get(pk=pkey)
+    
+    form = CommentForm()
+    if request.method == 'POST':
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            comment = Comment(
+                user_name=form.cleaned_data["user_name"],
+                body=form.cleaned_data["body"],
+                post=post
+            )
+            comment.save()
+
+
     comments = Comment.objects.filter(post=post)
     context = {
         "post" : post,
         "comments": comments,
+        "form" : form,
     }
     return render(request, "blog_detail.html", context)
